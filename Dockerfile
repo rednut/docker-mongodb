@@ -5,7 +5,7 @@
 #
 
 # Pull base image.
-FROM dockerfile/ubuntu
+FROM rednut/ubuntu:latest
 
 # Install MongoDB.
 RUN \
@@ -16,7 +16,7 @@ RUN \
   rm -rf /var/lib/apt/lists/*
 
 # Define mountable directories.
-VOLUME ["/data/db"]
+VOLUME ["/data/db" ]
 
 # Define working directory.
 WORKDIR /data
