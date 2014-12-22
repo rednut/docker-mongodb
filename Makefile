@@ -16,7 +16,7 @@ PDATA_VOL = $(LDATA_VOL):$(CDATA_VOL)
 
 RUN_OPTS = -p $(PORT_DB) -p $(PORT_HTTP) -v $(PDATA_VOL)
 CMD = mongod
-CMD_ARGS = --smallfiles 
+CMD_ARGS = --smallfiles --replSet "rs0"
 
 
 build: version_inc build_image tag_latest
@@ -46,10 +46,10 @@ run: cleanrunningcontainer runhttp
 
 
 runnohttp: cleanrunningcontainer
-	docker run -d --name=$(CONTAINER) -p $(PORT_DB) -v $(PDATA_VOL) $(REPO) $(CMD) $(CMD_ARGS)
+	echo docker run -d --name=$(CONTAINER) -p $(PORT_DB) -v $(PDATA_VOL) $(REPO) $(CMD) $(CMD_ARGS)
 
 runhttp: cleanrunningcontainer
-	docker run -d $(RUN_OPTS) --name=$(CONTAINER) $(REPO) $(CMD) --rest --httpinterface $(CMD_ARGS)
+	echo docker run -d $(RUN_OPTS) --name=$(CONTAINER) $(REPO) $(CMD) --rest --httpinterface $(CMD_ARGS)
 
 client:
 	docker run -it --rm --link $(CONTAINER):$(CONTAINER) $(REPO) bash -c 'ping -c 3 $(CONTAINER) ; mongo --host $(CONTAINER)'
